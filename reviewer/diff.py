@@ -55,3 +55,49 @@ def filter_findings(findings: list[dict], added: dict[str, set[int]]):
         else:
             dropped.append(finding)
     return kept, dropped
+
+def annotate_diff(diff_text: str) -> str:
+    """Rewrite a diff so every line is prefixed with its new-file line
+    number (or blank for removed lines). This lets the model copy line
+    numbers instead of counting them, which it does unreliably."""
+    added = parse_diff(diff_text)
+    out_lines = []
+    current = None
+    old_left = new_left = 0
+    new_no = 0
+
+    for line in diff_text.splitlines():
+        if old_left > 0 or new_left > 0:
+            if line.startswith("\\"):
+                out_lines.append(line)
+                continue
+            tag = line[:1]
+            if tag == "+":
+                out_lines.append(f"{new_no:>5} {line}")
+                new_no += 1
+                new_left -= 1
+            elif tag == "-":
+                out_lines.append(f"      {line}")
+                old_left -= 1
+            else:
+                out_lines.append(f"{new_no:>5} {line}")
+                new_no += 1
+                old_left -= 1
+                new_left -= 1
+            continue
+
+        out_lines.append(line)
+        if line.startswith("+++ "):
+            path = line[4:].strip()
+            current = None if path == "/dev/null" else (
+                path[2:] if path.startswith("b/") else path
+            )
+            continue
+
+        match = HUNK_RE.match(line)
+        if match:
+            old_left = int(match.group(2) or 1)
+            new_left = int(match.group(4) or 1)
+            new_no = int(match.group(3))
+
+    return "\n".join(out_lines)
