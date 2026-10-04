@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-APP_ID = os.getenv("GITHUB_APP_ID")
-PRIVATE_KEY_PATH = os.getenv("GITHUB_PRIVATE_KEY_PATH")
+APP_ID = os.getenv("GH_APP_ID") or os.getenv("GITHUB_APP_ID")
+PRIVATE_KEY_PATH = os.getenv("GH_PRIVATE_KEY_B64") or os.getenv("GITHUB_PRIVATE_KEY_PATH")
 
 def generate_jwt():
     with open(PRIVATE_KEY_PATH, "r") as f:

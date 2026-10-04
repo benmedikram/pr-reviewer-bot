@@ -22,12 +22,9 @@ def run_review(repo: str, pr: int, dry_run: bool):
     agents_md = load_agents_md(installation_id, repo)
 
     annotated = annotate_diff(diff)
-    findings = get_findings(agents_md, annotated)
+    findings = get_findings(agents_md, annotated, repo=repo, pr=pr)
     added_lines = parse_diff(diff)
     kept, dropped = filter_findings(findings, added_lines)
-
-    print(f"Raw findings from model: {findings}")
-    print(f"Commentable lines per file: {added_lines}")
 
     if dropped:
         print(f"Dropped {len(dropped)} finding(s) outside the diff.")
