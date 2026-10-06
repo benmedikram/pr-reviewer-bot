@@ -1,0 +1,301 @@
+[
+  {
+    "repo": "getsentry/sentry",
+    "pr": 92393,
+    "kept": [
+      {
+        "file": "src/sentry/scripts/spans/add-buffer.lua",
+        "line": 30,
+        "severity": "medium",
+        "message": "Reduced loop limit from 10000 to 1000, which changes the maximum segment tree depth and may affect existing data; missing entry in CHANGES.md.",
+        "confidence": 0.8
+      },
+      {
+        "file": "src/sentry/spans/buffer.py",
+        "line": 119,
+        "severity": "medium",
+        "message": "Added new required field 'end_timestamp_precise' to public Span NamedTuple without providing a default, which may break callers not updated for the new parameter.",
+        "confidence": 0.7
+      },
+      {
+        "file": "src/sentry/spans/buffer.py",
+        "line": 197,
+        "severity": "medium",
+        "message": "Switched from Redis set (sadd) to sorted set (zadd) for storing span payloads, altering data structure semantics; ensure CHANGES.md reflects this behavior change.",
+        "confidence": 0.7
+      },
+      {
+        "file": "src/sentry/spans/buffer.py",
+        "line": 434,
+        "severity": "medium",
+        "message": "Changed Redis scan command from 'sscan' to 'zscan' to match sorted set usage; verify that all callers handle the new tuple return format.",
+        "confidence": 0.75
+      }
+    ],
+    "dropped": [
+      {
+        "file": "src/sentry/spans/buffer.py",
+        "line": 447,
+        "severity": "high",
+        "message": "Removed safeguard that enforces 'max_segment_spans' limit, potentially allowing unbounded segment size and risking memory issues; add tests or restore limit.",
+        "confidence": 0.9
+      }
+    ],
+    "split": false,
+    "pr_title": "Optimize spans buffer insertion with eviction during insert"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 94376,
+    "kept": [
+      {
+        "file": "pyproject.toml",
+        "line": 180,
+        "severity": "medium",
+        "message": "Missing entry in CHANGES.md for the newly added public helper module error_upsampling.",
+        "confidence": 0.75
+      },
+      {
+        "file": "src/sentry/api/endpoints/organization_events_stats.py",
+        "line": 218,
+        "severity": "medium",
+        "message": "User-visible behavior change (error upsampling) added without a corresponding entry in CHANGES.md",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/search/events/datasets/discover.py",
+        "line": 1041,
+        "severity": "medium",
+        "message": "Missing CHANGES.md entry for new public function 'upsampled_count'.",
+        "confidence": 0.7
+      },
+      {
+        "file": "src/sentry/testutils/factories.py",
+        "line": 351,
+        "severity": "medium",
+        "message": "Bare except Exception hides errors; consider catching specific exceptions.",
+        "confidence": 0.99
+      },
+      {
+        "file": "src/sentry/testutils/factories.py",
+        "line": 356,
+        "severity": "medium",
+        "message": "Bare except Exception hides errors; consider catching specific exceptions.",
+        "confidence": 0.99
+      }
+    ],
+    "dropped": [],
+    "split": true,
+    "pr_title": "feat(upsampling) - Support upsampled error count with performance optimizations"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 67876,
+    "kept": [
+      {
+        "file": "src/sentry/web/frontend/pipeline_advancer.py",
+        "line": 41,
+        "severity": "medium",
+        "message": "User-visible behavior change: reduced FORWARD_INSTALL_FOR list to only \"github\" without updating CHANGES.md",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/integrations/github/test_integration.py",
+        "line": 116,
+        "severity": "high",
+        "message": "Hard-coded secret token found in test code.",
+        "confidence": 0.9
+      }
+    ],
+    "dropped": [],
+    "split": true,
+    "pr_title": "GitHub OAuth Security Enhancement"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 93824,
+    "kept": [
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 65,
+        "severity": "high",
+        "message": "Potential division by zero: if max_processes is falsy, self.num_processes can be zero, causing i % self.num_processes to raise ZeroDivisionError.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/consumers/__init__.py",
+        "line": 433,
+        "severity": "medium",
+        "message": "User-visible CLI option \"--flusher-processes\" added without a corresponding entry in CHANGES.md.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/consumers/__init__.py",
+        "line": 433,
+        "severity": "medium",
+        "message": "Documentation not updated for the new \"--flusher-processes\" option, which changes user-facing behavior.",
+        "confidence": 0.85
+      }
+    ],
+    "dropped": [],
+    "split": true
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 77754,
+    "kept": [
+      {
+        "file": "src/sentry/integrations/mixins/issues.py",
+        "line": 66,
+        "severity": "low",
+        "message": "Nit: public method signature of IssueBasicIntegration.should_sync changed; confirm backwards compatibility and deprecation handling.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/integrations/mixins/issues.py",
+        "line": 382,
+        "severity": "low",
+        "message": "Nit: public method signature of IssueSyncIntegration.should_sync changed; ensure existing callers handle the new optional parameter.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/integrations/mixins/issues.py",
+        "line": 416,
+        "severity": "low",
+        "message": "Nit: sync_status_outbound now accepts an optional assignment_source argument; verify backward compatibility and documentation updates.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/models/groupassignee.py",
+        "line": 138,
+        "severity": "low",
+        "message": "Nit: GroupAssignee.assign signature gained assignment_source parameter; confirm callers and documentation are updated accordingly.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/models/groupassignee.py",
+        "line": 207,
+        "severity": "low",
+        "message": "Nit: GroupAssignee.deassign signature now includes assignment_source; ensure existing usage remains compatible.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/integrations/tasks/sync_assignee_outbound.py",
+        "line": 34,
+        "severity": "low",
+        "message": "Nit: sync_assignee_outbound task added assignment_source_dict parameter; check that task callers provide the new argument where needed.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/integrations/utils/sync.py",
+        "line": 127,
+        "severity": "low",
+        "message": "Nit: sync_group_assignee_outbound now takes optional assignment_source; verify all internal calls are updated and compatibility is preserved.",
+        "confidence": 0.9
+      }
+    ],
+    "dropped": [],
+    "split": true
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 80528,
+    "kept": [
+      {
+        "file": "src/sentry/monitors/logic/incident_occurrence.py",
+        "line": 130,
+        "severity": "medium",
+        "message": "Missing return type hint for public function get_failure_reason.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/monitors/logic/incident_occurrence.py",
+        "line": 159,
+        "severity": "medium",
+        "message": "Missing return type hint for public function get_monitor_environment_context.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/monitors/logic/incident_occurrence.py",
+        "line": 148,
+        "severity": "high",
+        "message": "Edge case: get_failure_reason fails when failed_checkins is empty, leading to an empty list passed to get_text_list which may raise an error.",
+        "confidence": 0.85
+      },
+      {
+        "file": "src/sentry/monitors/logic/mark_failed.py",
+        "line": 79,
+        "severity": "medium",
+        "message": "User-visible behavior change without a corresponding entry in CHANGES.md",
+        "confidence": 0.95
+      }
+    ],
+    "dropped": [],
+    "split": true
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 95633,
+    "kept": [
+      {
+        "file": "src/sentry/consumers/__init__.py",
+        "line": 121,
+        "severity": "medium",
+        "message": "A new click.Choice value 'thread-queue-parallel' is added, introducing a new user-visible mode. Ensure this behavior change is recorded in CHANGES.md with the appropriate PR reference.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/consumers/__init__.py",
+        "line": 121,
+        "severity": "medium",
+        "message": "The addition of the 'thread-queue-parallel' mode changes the CLI's user-facing behavior but no documentation under docs/ appears to be updated. Add or update documentation accordingly.",
+        "confidence": 0.93
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 144,
+        "severity": "medium",
+        "message": "Catching broad Exception without re\u2011raising can hide errors; consider handling specific exceptions or re\u2011raise after logging.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/result_consumer.py",
+        "line": 108,
+        "severity": "medium",
+        "message": "Missing entry in CHANGES.md for new 'thread-queue-parallel' mode added to public API",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 1780,
+        "severity": "high",
+        "message": "Syntax error: function definition missing return type after '->'",
+        "confidence": 0.98
+      }
+    ],
+    "dropped": [],
+    "split": true
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 80168,
+    "kept": [
+      {
+        "file": "src/sentry/workflow_engine/processors/detector.py",
+        "line": 49,
+        "severity": "medium",
+        "message": "Changed return type of public function process_detectors; confirm backward compatibility is handled and deprecation is documented.",
+        "confidence": 0.96
+      },
+      {
+        "file": "src/sentry/workflow_engine/processors/detector.py",
+        "line": 49,
+        "severity": "high",
+        "message": "User-visible behavior change (return type) without a corresponding entry in CHANGES.md.",
+        "confidence": 0.95
+      }
+    ],
+    "dropped": [],
+    "split": true
+  }
+]
