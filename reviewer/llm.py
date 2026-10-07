@@ -93,7 +93,10 @@ def get_findings(agents_md: str, diff: str, repo: str = "", pr: int = 0,
                 langfuse.flush()
 
                 data = json.loads(raw_text)
-                findings = data.get("findings", [])
+                if isinstance(data, list):
+                    findings = data  
+                else:
+                    findings = data.get("findings", [])
                 for f in findings:
                     f["confidence"] = _coerce_confidence(f.get("confidence"))
                 return findings

@@ -51,3 +51,12 @@ def post_review(installation_id: int, repo_full_name: str, pr_number: int,
         event="COMMENT",   # hard-coded on purpose — see docstring above
         comments=comments,
     )
+
+def post_hello(installation_id: int, repo_full_name: str, pr_number: int):
+    """Poste un commentaire simple pour confirmer que l'auth et la
+    connexion GitHub fonctionnent — utile comme smoke test rapide."""
+    token = get_installation_token(installation_id)
+    gh = Github(token)
+    repo = gh.get_repo(repo_full_name)
+    pr = repo.get_pull(pr_number)
+    pr.create_issue_comment("Hello!")
