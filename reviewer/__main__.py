@@ -4,7 +4,7 @@ import requests
 from reviewer.github_auth import get_installation_id_for_repo, get_installation_token
 from reviewer.diff import parse_diff, filter_findings, annotate_diff
 from reviewer.llm import get_findings
-from reviewer.poster import fetch_diff, post_review
+from reviewer.poster import fetch_diff, post_review, post_hello
 
 
 def load_agents_md(installation_id: int, repo_full_name: str) -> str:
@@ -15,6 +15,10 @@ def load_agents_md(installation_id: int, repo_full_name: str) -> str:
     resp.raise_for_status()
     return resp.text
 
+def run_hello(repo: str, pr: int):
+    installation_id = get_installation_id_for_repo(repo)
+    post_hello(installation_id, repo, pr)
+    print(f"Posted hello on {repo}#{pr}")
 
 def run_review(repo: str, pr: int, dry_run: bool):
     installation_id = get_installation_id_for_repo(repo)
@@ -41,9 +45,15 @@ def main():
     review.add_argument("--pr", required=True, type=int)
     review.add_argument("--dry-run", action="store_true")
 
+    hello = subparsers.add_parser("hello")
+    hello.add_argument("--repo", required=True)
+    hello.add_argument("--pr", required=True, type=int)    
+
     args = parser.parse_args()
     if args.command == "review":
         run_review(args.repo, args.pr, args.dry_run)
+    elif args.command == "hello":
+        run_hello(args.repo, args.pr)
 
 
 if __name__ == "__main__":

@@ -89,6 +89,14 @@ python -m reviewer review --repo owner/repo --pr 42 --dry-run
 python -m reviewer review --repo owner/repo --pr 42
 ```
 
+### Smoke test — confirm the bot is connected
+
+```bash
+python -m reviewer hello --repo owner/repo --pr 1
+```
+
+Posts a simple "Hello!" comment to confirm authentication and connectivity are working, without needing a full review.
+
 ### Run the tests
 
 ```bash
