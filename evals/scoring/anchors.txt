@@ -1,0 +1,111 @@
+#1 [changelog] pyproject.toml:180
+    code   : "sentry.api.helpers.error_upsampling",
+    finding: Missing entry in CHANGES.md for the newly added public helper module error_upsampling.
+
+#2 [changelog] organization_events_stats.py:218
+    code   : should_upsample = is_errors_query_for_error_upsampled_projects(
+    finding: User-visible behavior change (error upsampling) added without a corresponding entry in CHA
+
+#3 [changelog] discover.py:1041
+    code   : SnQLFunction(
+    finding: Missing CHANGES.md entry for new public function 'upsampled_count'.
+
+#4 [bare-except] factories.py:351
+    code   : except Exception:
+    finding: Bare except Exception hides errors; consider catching specific exceptions.
+
+#5 [bare-except] factories.py:356
+    code   : except Exception:
+    finding: Bare except Exception hides errors; consider catching specific exceptions.
+
+#6 [changelog] pipeline_advancer.py:41
+    code   : provider_id == "github"
+    finding: User-visible behavior change: reduced FORWARD_INSTALL_FOR list to only "github" without up
+
+#7 [secret] test_integration.py:116
+    code   : access_token = "xxxxx-xxxxxxxxx-xxxxxxxxxx-xxxxxxxxxxxx"
+    finding: Hard-coded secret token found in test code.
+
+#8 [other] flusher.py:65
+    code   : process_index = i % self.num_processes
+    finding: Potential division by zero: if max_processes is falsy, self.num_processes can be zero, cau
+
+#9 [changelog] __init__.py:433
+    code   : ["--flusher-processes", "flusher_processes"],
+    finding: User-visible CLI option "--flusher-processes" added without a corresponding entry in CHANG
+
+#10 [docs] __init__.py:433
+    code   : ["--flusher-processes", "flusher_processes"],
+    finding: Documentation not updated for the new "--flusher-processes" option, which changes user-fac
+
+#11 [signature-compat] issues.py:66
+    code   : def should_sync(self, attribute, sync_source: AssignmentSource | None = None):
+    finding: Nit: public method signature of IssueBasicIntegration.should_sync changed; confirm backwar
+
+#12 [signature-compat] issues.py:382
+    code   : def should_sync(self, attribute: str, sync_source: AssignmentSource | None = None) -> bool
+    finding: Nit: public method signature of IssueSyncIntegration.should_sync changed; ensure existing 
+
+#13 [signature-compat] issues.py:416
+    code   : assignment_source: AssignmentSource | None = None,
+    finding: Nit: sync_status_outbound now accepts an optional assignment_source argument; verify backw
+
+#14 [signature-compat] groupassignee.py:138
+    code   : assignment_source: AssignmentSource | None = None,
+    finding: Nit: GroupAssignee.assign signature gained assignment_source parameter; confirm callers an
+
+#15 [signature-compat] groupassignee.py:207
+    code   : assignment_source: AssignmentSource | None = None,
+    finding: Nit: GroupAssignee.deassign signature now includes assignment_source; ensure existing usag
+
+#16 [signature-compat] sync_assignee_outbound.py:34
+    code   : assignment_source_dict: dict[str, Any] | None = None,
+    finding: Nit: sync_assignee_outbound task added assignment_source_dict parameter; check that task c
+
+#17 [signature-compat] sync.py:127
+    code   : assignment_source: AssignmentSource | None = None,
+    finding: Nit: sync_group_assignee_outbound now takes optional assignment_source; verify all interna
+
+#18 [type-hint] incident_occurrence.py:130
+    code   : def get_failure_reason(failed_checkins: Sequence[SimpleCheckIn]):
+    finding: Missing return type hint for public function get_failure_reason.
+
+#19 [type-hint] incident_occurrence.py:159
+    code   : def get_monitor_environment_context(monitor_environment: MonitorEnvironment):
+    finding: Missing return type hint for public function get_monitor_environment_context.
+
+#20 [other] incident_occurrence.py:148
+    code   : human_status = get_text_list(
+    finding: Edge case: get_failure_reason fails when failed_checkins is empty, leading to an empty lis
+
+#21 [changelog] mark_failed.py:79
+    code   : return try_incident_threshold(failed_checkin, failure_issue_threshold, received)
+    finding: User-visible behavior change without a corresponding entry in CHANGES.md
+
+#22 [changelog] __init__.py:121
+    code   : type=click.Choice(["serial", "parallel", "batched-parallel", "thread-queue-parallel"]),
+    finding: A new click.Choice value 'thread-queue-parallel' is added, introducing a new user-visible 
+
+#23 [docs] __init__.py:121
+    code   : type=click.Choice(["serial", "parallel", "batched-parallel", "thread-queue-parallel"]),
+    finding: The addition of the 'thread-queue-parallel' mode changes the CLI's user-facing behavior bu
+
+#24 [bare-except] queue_consumer.py:144
+    code   : except Exception:
+    finding: Catching broad Exception without re‑raising can hide errors; consider handling specific ex
+
+#25 [changelog] result_consumer.py:108
+    code   : mode: Literal["batched-parallel", "parallel", "serial", "thread-queue-parallel"] = "serial
+    finding: Missing entry in CHANGES.md for new 'thread-queue-parallel' mode added to public API
+
+#26 [syntax-error] test_results_consumer.py:1780
+    code   : def test_thread_queue_parallel_concurrent_subscriptions(self) -> None:
+    finding: Syntax error: function definition missing return type after '->'
+
+#27 [signature-compat] detector.py:49
+    code   : ) -> list[tuple[Detector, dict[DetectorGroupKey, DetectorEvaluationResult]]]:
+    finding: Changed return type of public function process_detectors; confirm backward compatibility i
+
+#28 [changelog] detector.py:49
+    code   : ) -> list[tuple[Detector, dict[DetectorGroupKey, DetectorEvaluationResult]]]:
+    finding: User-visible behavior change (return type) without a corresponding entry in CHANGES.md.
