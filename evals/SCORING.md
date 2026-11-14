@@ -11,8 +11,7 @@ A finding matches at most one reference issue. A reference issue matched by seve
 Precision = matched findings / emitted findings
 Recall    = matched reference issues / reference issues
 Emitted findings = findings kept after the diff-line filter. Findings on lines outside the diff are dropped before scoring and reported separately (none among the scored PRs in experiment 0).
-Headline figures use strict matches. Lenient (strict + ambiguous) is
-reported as a sensitivity check.
+Headline figures use strict matches. Lenient (strict + ambiguous) is reported as a sensitivity check.
 
 ## Manual verdict (independent of the benchmark)
 - actionable: true, and a maintainer could act on it from the comment alone

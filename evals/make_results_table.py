@@ -1,4 +1,5 @@
 # evals/make_results_table.py
+# This script creates a markdown table from a labeled CSV file.
 # Usage: python evals/make_results_table.py <labeled csv> [id,id,...]
 # Writes <csv stem>_table.md (all rows) or <csv stem>_cases.md (listed ids).
 import csv
