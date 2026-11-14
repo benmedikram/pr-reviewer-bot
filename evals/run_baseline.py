@@ -18,11 +18,31 @@ OUT_PATH = Path(__file__).parent / "results" / "raw_findings.json"
 MAX_DIFF_CHARS = 16000  # ~4000 tokens, rough 4-chars-per-token estimate
 
 
-def fetch_public_diff(repo: str, pr: int) -> str:
+DIFF_CACHE = Path(__file__).parent / "diffs"
+
+
+def fetch_public_diff(repo: str, pr: int, retries: int = 4) -> str:
+    """Return the PR diff, cached on disk as the exact bytes GitHub sent, so
+    every experiment sees the same input and a transient GitHub error cannot
+    break a run halfway."""
+    cache = DIFF_CACHE / f"{repo.replace('/', '_')}_{pr}.diff"
+    if cache.exists():
+        return cache.read_bytes().decode("utf-8")
+
     url = f"https://github.com/{repo}/pull/{pr}.diff"
-    resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
-    resp.raise_for_status()
-    return resp.text
+    for attempt in range(retries):
+        try:
+            resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)
+            resp.raise_for_status()
+            DIFF_CACHE.mkdir(exist_ok=True)
+            cache.write_bytes(resp.content)
+            return resp.content.decode("utf-8")
+        except requests.RequestException as e:
+            if attempt == retries - 1:
+                raise
+            wait = 5 * (attempt + 1)
+            print(f"  diff fetch failed ({e}); retrying in {wait}s...")
+            time.sleep(wait)
 
 def fetch_agents_md(repo: str) -> str:
     """Récupère le AGENTS.md du repo cible (le vrai playbook de ce projet),
