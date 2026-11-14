@@ -104,6 +104,6 @@ The first report counted 1 match out of 32 findings and 26 reference issues (3.1
 - Labeling: done by Ikram, with a draft proposed by an AI assistant (Claude) for the match column and for wording; each verdict that depends on the code was checked by the labeler in the PR diff, and the checks are recorded in the justification column. There was no independent second labeler. Verdicts rely on the diff and on the current state of the Sentry repository for conventions.
 - One run per condition so far; outputs vary between runs.
 - Experiment 0 was assembled from several partial runs, and the code changed between them (JSON handling in `llm.py`, chunk packing). It is a documented starting point, not a clean control.
-- In experiment 0 the model saw only part of two large diffs: PR 95633 (24,290 of 55,464 characters, 44%) and PR 80168 (13,469 of 29,004, 46%), because files were truncated at 6000 characters to fit the free-tier token limit. The other five PRs were reviewed in full (chunk sizes from the run logs).
+- In experiment 0 the model saw only part of two large diffs: PR 95633 (44%) and PR 80168 (46%). These two PRs hold 5 of the 22 reference issues; 2 of them lie entirely outside the part the model saw (95633-R2 and 80168-R3), and 2 were only partly visible (95633-R1 and 80168-R1).
 - Splitting by file can also hide dependencies between files, and a cut in the middle of a line can create artifacts.
 - The playbook was written for Click; this experiment measures a mismatched context.

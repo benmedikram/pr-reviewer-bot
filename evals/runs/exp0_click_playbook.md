@@ -12,7 +12,7 @@
 | Tokens | 107,539 input, 33,140 output (all 33 successful calls, including the 11 not used; failed attempts carry no usage) |
 | Cost | $0.036013 for the 7 scored PRs, including the 11 calls not used = $0.005145 per PR (at $0.15 / $0.60 per million input / output tokens, no caching discount; free tier, nothing billed) |
 | Call latency | per model call (not review latency), successful calls: median 14.1 s, mean 17.8 s |
-| Diffs | Cached in evals/diffs/ (not committed). SHA-256 in evals/diff_hashes.txt, computed on 10-11-2026 after the run, from diffs downloaded again; their sizes equal those in the run logs. |
+| Diffs | Cached in evals/diffs/ (not committed), saved as the exact bytes returned by GitHub. SHA-256 in evals/diff_hashes.txt, computed on 14-11-2026 after the run, from diffs downloaded again; their sizes equal those in the run logs (22375, 19655, 19221, 16941, 21117, 55464, 29004). |
 | Labeling | - Labeling: done by Ikram, with a draft proposed by an AI assistant (Claude) for the match column and for wording; each verdict that depends on the code was checked by the labeler in the PR diff, and the checks are recorded in the justification column. There was no independent second labeler. Verdicts rely on the diff and on the current state of the Sentry repository for conventions. |
 | Reproducibility | Not reproducible with a single command: three different chunking settings were used across the PRs (see below). Experiments 1 and 2 use one fixed chunking for all PRs. |
 
@@ -29,3 +29,5 @@
 | 80168 | 29,004 | files packed, up to 6,000 chars per call | 3 | 13,469 (46%) | yes: test_detector.py cut at 6,000 of 21,535 chars (28% seen); the three source files seen in full |
 
 Sizes and split modes were reconstructed from the terminal logs of the runs. The rows for 95633 and 80168 were recomputed with evals/seen_check.py using the current code (6,000-character limit) and match the logs.
+
+Reconstruction check: re-running the current chunking code on the re-downloaded diff of PR 95633 gives packed calls of 1,126, 6,000, 5,164, 6,000 and 6,000 characters, identical to the run logs. The last call ends with `def test_thread_queue_parallel_concurrent_subscriptions(self) ->`, cut before `None:` (the definition starts at character 5,936 of the file diff). This explains finding 26.
