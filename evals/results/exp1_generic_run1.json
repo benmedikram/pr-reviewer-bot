@@ -1,0 +1,906 @@
+[
+  {
+    "repo": "getsentry/sentry",
+    "pr": 94376,
+    "pr_title": "feat(upsampling) - Support upsampled error count with performance optimizations",
+    "kept": [
+      {
+        "file": "src/sentry/api/helpers/error_upsampling.py",
+        "line": 38,
+        "severity": "medium",
+        "message": "The allowlist retrieved from options may contain string IDs while `project_ids` are integers. The `project_id in allowlist` check will always be False for mismatched types, causing legitimate projects to be rejected. Convert both sides to the same type or validate the option format.",
+        "confidence": 0.78
+      },
+      {
+        "file": "src/sentry/api/helpers/error_upsampling.py",
+        "line": 58,
+        "severity": "low",
+        "message": "The transformation only replaces the exact string \"count()\". Queries that contain whitespace variations such as \"count ( )\" will not be rewritten, leading to inconsistent up\u2011sampling behavior.",
+        "confidence": 0.62
+      },
+      {
+        "file": "src/sentry/api/helpers/error_upsampling.py",
+        "line": 55,
+        "severity": "high",
+        "message": "`transform_query_columns_for_error_upsampling` forwards any column string that is not exactly \"count()\" unchanged. If `query_columns` originates from user input, this could allow SQL injection via crafted aggregation expressions. The function should validate or whitelist allowed column expressions before returning them.",
+        "confidence": 0.71
+      },
+      {
+        "file": "src/sentry/testutils/factories.py",
+        "line": 344,
+        "severity": "high",
+        "message": "The function _set_sample_rate_from_error_sampling uses the type hint Any but the name is not imported, causing a NameError at import time.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/testutils/factories.py",
+        "line": 353,
+        "severity": "medium",
+        "message": "The check \"if client_sample_rate:\" treats a valid sample rate of 0 (or 0.0) as falsy and skips setting it, potentially dropping legitimate zero\u2011sample\u2011rate configurations.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/testutils/factories.py",
+        "line": 355,
+        "severity": "low",
+        "message": "The function casts client_sample_rate to float without validating that the resulting value is within the expected 0.0\u20111.0 range, which could lead to invalid sample_rate values being stored.",
+        "confidence": 0.8
+      }
+    ],
+    "dropped": [],
+    "calls": 6,
+    "chunk_sizes": [
+      4439,
+      4398,
+      1649,
+      4443,
+      5802,
+      2022
+    ],
+    "diff_chars": 22375,
+    "diff_sha256": "eff887f75d92168cf9ac737a5f33bad83204aa102e057d97acdfc6ac24f200cd"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 67876,
+    "pr_title": "GitHub OAuth Security Enhancement",
+    "kept": [
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 7,
+        "severity": "low",
+        "message": "Imported `parse_qsl` from urllib.parse but never used in the module, leading to dead code and unnecessary import overhead.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 10,
+        "severity": "low",
+        "message": "`reverse` from django.urls is imported but not referenced anywhere in the file.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 18,
+        "severity": "low",
+        "message": "`safe_urlopen` and `safe_urlread` are imported from sentry.http but are not used in this module.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 42,
+        "severity": "low",
+        "message": "`absolute_uri` from sentry.utils.http is imported but never used.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 149,
+        "severity": "low",
+        "message": "`get_document_origin` returns a string with surrounding double quotes when a custom domain is enabled (`\"{url}\"`). This may produce malformed JavaScript or HTML attribute values if the caller expects a raw URL without quotes.",
+        "confidence": 0.85
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 129,
+        "severity": "medium",
+        "message": "The new `error` helper renders an error page but does not log the failure or capture it in Sentry. Lack of logging makes debugging installation failures harder.",
+        "confidence": 0.8
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 344,
+        "severity": "medium",
+        "message": "Changing the pipeline view order to `[OAuthLoginView(), GitHubInstallation()]` may alter the installation flow. If `OAuthLoginView` expects certain request state set by `GitHubInstallation`, this could cause runtime errors.",
+        "confidence": 0.75
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 129,
+        "severity": "low",
+        "message": "The default `error_short` string is not wrapped in gettext (`_()`) for translation, unlike other user\u2011visible messages in the file.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 408,
+        "severity": "medium",
+        "message": "Redirect URL is built by string interpolation without URL\u2011encoding query parameters (client_id, state, redirect_uri). This can lead to open\u2011redirect or injection vulnerabilities if any of those values contain special characters.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 417,
+        "severity": "low",
+        "message": "The code parameter from the OAuth callback is used without checking for its presence. If \"code\" is missing, the request to GitHub will contain a None value, potentially causing a confusing error response.",
+        "confidence": 0.78
+      },
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 478,
+        "severity": "high",
+        "message": "Variable `installation_id` is used but never defined, causing a NameError at runtime.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/integrations/github/test_integration.py",
+        "line": 15,
+        "severity": "low",
+        "message": "Imported `INSTALLATION_EVENT_EXAMPLE` but never used in the test module, leading to an unnecessary import.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/integrations/github/test_integration.py",
+        "line": 36,
+        "severity": "low",
+        "message": "`json` is imported from `sentry.utils` but not referenced anywhere in the file; remove the import to keep the test clean.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/integrations/github/test_integration.py",
+        "line": 235,
+        "severity": "medium",
+        "message": "The assertion compares the full query string to an exact literal. If the order of query parameters changes (even though functionally equivalent), the test will fail. Consider parsing the query and asserting on individual parameters instead.",
+        "confidence": 0.8
+      }
+    ],
+    "dropped": [
+      {
+        "file": "src/sentry/integrations/github/integration.py",
+        "line": 447,
+        "severity": "low",
+        "message": "The new logic for obtaining `installation_id` falls back to a pipeline\u2011stored value, but the subsequent `return self.redirect(self.get_app_url())` may be executed with a missing import or incorrect indentation, risking a runtime error if the method is not defined in the current scope.",
+        "confidence": 0.65
+      },
+      {
+        "file": "tests/sentry/integrations/github/test_integration.py",
+        "line": 254,
+        "severity": "medium",
+        "message": "The test accesses `responses.calls[2]` to get the Authorization header, assuming a fixed order of mocked HTTP calls. Adding new mocked calls (e.g., the OAuth token exchange) shifts the index, making the test fragile and prone to break if call ordering changes.",
+        "confidence": 0.85
+      }
+    ],
+    "calls": 5,
+    "chunk_sizes": [
+      3321,
+      3057,
+      5190,
+      4004,
+      4864
+    ],
+    "diff_chars": 19655,
+    "diff_sha256": "14aeb3352ca31a878eca6b829c0bd0d7eb86da3437e44acb2ce777d6b10dbde6"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 93824,
+    "pr_title": "Span Buffer Multiprocess Enhancement with Health Monitoring",
+    "kept": [
+      {
+        "file": "src/sentry/spans/consumers/process/factory.py",
+        "line": 41,
+        "severity": "high",
+        "message": "Added a new positional parameter `flusher_processes` to `__init__` without updating all call sites. Existing code that instantiates this class with positional arguments will now receive mismatched arguments, leading to runtime errors.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/factory.py",
+        "line": 74,
+        "severity": "medium",
+        "message": "`SpanFlusher` is called with `max_processes=self.flusher_processes` which may be `None` if the option is not provided. If `SpanFlusher` expects an integer, this will raise a TypeError or cause unintended behavior.",
+        "confidence": 0.88
+      },
+      {
+        "file": "src/sentry/consumers/__init__.py",
+        "line": 430,
+        "severity": "low",
+        "message": "A new CLI option `--flusher-processes` is added but there are no corresponding unit tests to verify that the option is parsed correctly and propagated to the factory. Add tests to cover this new flag.",
+        "confidence": 0.81
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 47,
+        "severity": "medium",
+        "message": "Using `max_processes or len(buffer.assigned_shards)` treats a legitimate value of 0 as falsy and falls back to the full shard count, which may unintentionally spawn more processes than requested.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 128,
+        "severity": "high",
+        "message": "`_create_process_for_shard` starts a new process for the shard's process group without terminating the existing process, potentially leading to duplicate processes and resource leaks.",
+        "confidence": 0.88
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 18,
+        "severity": "low",
+        "message": "Imported `ServiceMemory` but never used, which may indicate dead code or a missing integration.",
+        "confidence": 0.75
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 247,
+        "severity": "medium",
+        "message": "`self.process_restarts` is now expected to be a dict, but the code accesses `self.process_restarts[process_index]` without ensuring the key exists, which can raise a KeyError on first use.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 232,
+        "severity": "medium",
+        "message": "`self.process_healthy_since` is accessed with `process_index` without guaranteeing the entry exists, potentially causing a KeyError.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 267,
+        "severity": "high",
+        "message": "Call to undefined method `_ensure_processes_alive()`. The original code used `_ensure_process_alive()`. If the new method is not implemented, this will raise an AttributeError at runtime.",
+        "confidence": 0.8
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 269,
+        "severity": "medium",
+        "message": "Iterating over `self.buffers` but the original implementation referenced `self.buffer`. If `self.buffers` is not defined on the class, this will cause an AttributeError.",
+        "confidence": 0.6
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 277,
+        "severity": "medium",
+        "message": "The new back\u2011pressure loop accesses `self.process_backpressure_since`. This attribute does not exist in the original code and may be undefined, leading to an AttributeError.",
+        "confidence": 0.6
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 299,
+        "severity": "medium",
+        "message": "Replaced `memory_infos = list(self.buffer.get_memory_info())` with a loop over `self.buffers`. If `self.buffers` is not defined, this will raise an AttributeError and break memory\u2011usage checks.",
+        "confidence": 0.6
+      },
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 337,
+        "severity": "medium",
+        "message": "The `join` method now iterates over `self.processes`. If the class does not define a `processes` attribute (it previously used `self.process`), this will cause an AttributeError and prevent proper shutdown of background workers.",
+        "confidence": 0.6
+      },
+      {
+        "file": "tests/sentry/spans/consumers/process/test_consumer.py",
+        "line": 88,
+        "severity": "medium",
+        "message": "The test monkey\u2011patches time.sleep to a no\u2011op (line 88) and then later calls time.sleep(0.1) expecting a real delay (lines 62\u201163). Because of the monkey\u2011patch, the sleep does nothing, so the comment \u201cGive flusher threads time to process after drift change\u201d is ineffective and the test may become flaky or miss timing\u2011related bugs.",
+        "confidence": 0.9
+      }
+    ],
+    "dropped": [
+      {
+        "file": "src/sentry/spans/consumers/process/flusher.py",
+        "line": 179,
+        "severity": "high",
+        "message": "Variable `healthy_since` is referenced but not defined in this scope, causing a NameError at runtime.",
+        "confidence": 0.98
+      }
+    ],
+    "calls": 5,
+    "chunk_sizes": [
+      2581,
+      5977,
+      4651,
+      3579,
+      2935
+    ],
+    "diff_chars": 19221,
+    "diff_sha256": "086d41689ed4dc1c2b0b33ef0e33139c906c009f178f32f9a0392f63cdeb6342"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 77754,
+    "pr_title": "feat(ecosystem): Implement cross-system issue synchronization",
+    "kept": [
+      {
+        "file": "src/sentry/integrations/services/assignment_source.py",
+        "line": 18,
+        "severity": "medium",
+        "message": "The default value for the 'queued' field is set to timezone.now() at import time, causing all AssignmentSource instances to share the same timestamp. Use default_factory to capture the current time per instance.",
+        "confidence": 0.97
+      },
+      {
+        "file": "src/sentry/integrations/utils/sync.py",
+        "line": 141,
+        "severity": "high",
+        "message": "The async task `sync_assignee_outbound` is invoked with a new keyword argument `assignment_source_dict`, but the task's signature is not updated to accept this argument. This will raise a TypeError at runtime, breaking outbound sync functionality.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/models/groupassignee.py",
+        "line": 138,
+        "severity": "medium",
+        "message": "The new `assignment_source` parameter is added to `assign` and `deassign` methods, but existing call sites throughout the codebase (outside this diff) may not pass this argument, potentially leading to inconsistent assignment source tracking. Consider adding tests to verify default behavior and propagation of the new parameter.",
+        "confidence": 0.78
+      },
+      {
+        "file": "tests/sentry/models/test_groupassignee.py",
+        "line": 172,
+        "severity": "low",
+        "message": "ActivityType is used in the test (ActivityType.ASSIGNED.value) but not imported, which will raise a NameError when the test runs.",
+        "confidence": 0.97
+      }
+    ],
+    "dropped": [],
+    "calls": 4,
+    "chunk_sizes": [
+      5756,
+      5171,
+      1468,
+      4546
+    ],
+    "diff_chars": 16941,
+    "diff_sha256": "b4ff3810b7c2cd48975fd3f530a00675c8630ae011dd12f49de84d01695bfd41"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 80528,
+    "pr_title": "ref(crons): Reorganize incident creation / issue occurrence logic",
+    "kept": [
+      {
+        "file": "src/sentry/monitors/logic/incident_occurrence.py",
+        "line": 140,
+        "severity": "medium",
+        "message": "The code accesses `checkin[\"status\"]` assuming `SimpleCheckIn` is a mapping, but `SimpleCheckIn` is likely a dataclass or object with a `.status` attribute. This can raise a `KeyError` or `TypeError` at runtime.",
+        "confidence": 0.85
+      },
+      {
+        "file": "src/sentry/monitors/logic/incident_occurrence.py",
+        "line": 159,
+        "severity": "high",
+        "message": "`get_monitor_environment_context` creates a copy of the monitor config but never returns it, so the function returns `None`. The caller expects a dictionary for the \"monitor\" context, which will lead to malformed event data or runtime errors.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/monitors/logic/incident_occurrence.py",
+        "line": 145,
+        "severity": "low",
+        "message": "When `failed_checkins` is empty, `status_counts` is empty, `human_status` becomes an empty string, and the final message becomes \" check-ins detected\". Consider handling the empty case explicitly.",
+        "confidence": 0.78
+      },
+      {
+        "file": "src/sentry/monitors/logic/incidents.py",
+        "line": 59,
+        "severity": "high",
+        "message": "possible IndexError: 'previous_checkins' may be empty when the slice returns no items (e.g., not enough check-ins for the given failure_issue_threshold), leading to runtime crash at 'starting_checkin = previous_checkins[0]'",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/monitors/logic/mark_failed.py",
+        "line": 4,
+        "severity": "high",
+        "message": "The original code imported `datetime, timezone` but the updated import only brings in `datetime`. If the function later uses `timezone` (e.g., `datetime.now(timezone.utc)`), this will raise a NameError at runtime.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/monitors/logic/mark_failed.py",
+        "line": 9,
+        "severity": "medium",
+        "message": "`MonitorStatus`, `MonitorIncident`, and other types were removed from the imports but are still referenced later in the file. This will cause ImportError/NameError when the function executes.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/monitors/logic/mark_failed.py",
+        "line": 79,
+        "severity": "medium",
+        "message": "The function `try_incident_threshold` is called but not imported in this module, which will raise a NameError at runtime.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/monitors/logic/mark_failed.py",
+        "line": 79,
+        "severity": "medium",
+        "message": "`SimpleCheckIn` is used as a type hint in `get_failure_reason` but the module does not import it from `sentry.monitors.types`, leading to a potential NameError during type checking or runtime.",
+        "confidence": 0.88
+      }
+    ],
+    "dropped": [
+      {
+        "file": "src/sentry/monitors/logic/mark_failed.py",
+        "line": 78,
+        "severity": "medium",
+        "message": "After the removal of the call to `mark_failed_threshold`, the `mark_failed` function no longer returns a value. It now falls off the end and implicitly returns `None`, whereas callers expect a boolean indicating success. This can cause type errors or incorrect logic downstream.",
+        "confidence": 0.95
+      }
+    ],
+    "calls": 5,
+    "chunk_sizes": [
+      5728,
+      4815,
+      1189,
+      5833,
+      4306
+    ],
+    "diff_chars": 21117,
+    "diff_sha256": "38db08bf25b41a1df1e6c11da1f1d85dd3b7d2bf685bed580b13eea1eace954f"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 95633,
+    "pr_title": "feat(uptime): Add ability to use queues to manage parallelism",
+    "kept": [
+      {
+        "file": "src/sentry/consumers/__init__.py",
+        "line": 121,
+        "severity": "medium",
+        "message": "A new click choice \"thread-queue-parallel\" was added to the --mode option, but there is no visible handling for this mode in the codebase. If the rest of the application does not implement this mode, selecting it will raise a runtime error or result in undefined behavior.",
+        "confidence": 0.78
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 132,
+        "severity": "high",
+        "message": "The code catches `queue.ShutDown`, but the `queue` module does not define a `ShutDown` exception. This will raise an AttributeError at runtime and cause the worker thread to crash when an exception is raised.",
+        "confidence": 0.99
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 54,
+        "severity": "medium",
+        "message": "`_get_partition_lock` checks for an existing lock and then creates one with `setdefault`. Between the check and the creation another thread could create a different lock, leading to inconsistent locking for the same partition.",
+        "confidence": 0.8
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 105,
+        "severity": "medium",
+        "message": "`mark_committed` removes committed offsets from `all_offsets` but does not clean the corresponding entries from `outstanding`. This can cause stale offsets to remain in `outstanding`, leading to memory leaks and potentially incorrect committable offset calculations.",
+        "confidence": 0.75
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 238,
+        "severity": "high",
+        "message": "Calling q.shutdown on a standard queue.Queue object. queue.Queue does not implement a shutdown method, so this will raise an AttributeError during shutdown, preventing graceful termination of the pool.",
+        "confidence": 0.95
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 234,
+        "severity": "low",
+        "message": "Setting worker.shutdown = True assumes the worker checks this attribute for termination. If OrderedQueueWorker expects a method call (e.g., worker.shutdown()), the worker may never stop, leading to leaked threads.",
+        "confidence": 0.5
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 317,
+        "severity": "medium",
+        "message": "Catching a broad Exception and not re\u2011raising it can mask underlying bugs and make troubleshooting difficult.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 319,
+        "severity": "high",
+        "message": "The except block accesses `message.value` without guaranteeing that `message` was successfully assigned before the exception, risking an UnboundLocalError and hiding the original error.",
+        "confidence": 0.9
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 344,
+        "severity": "low",
+        "message": "The `join` method accepts a `timeout` argument but never uses it, which may mislead callers expecting the timeout to affect the shutdown behavior.",
+        "confidence": 0.85
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/queue_consumer.py",
+        "line": 340,
+        "severity": "medium",
+        "message": "`terminate` sets the shutdown event and shuts down the queue pool but does not join the `commit_thread`, potentially leaving a background thread running and causing resource leaks.",
+        "confidence": 0.85
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/result_consumer.py",
+        "line": 22,
+        "severity": "medium",
+        "message": "Importing `FixedQueuePool` and `SimpleQueueProcessingStrategy` from `queue_consumer` may introduce a circular import if `queue_consumer` also imports this module, leading to runtime ImportError.",
+        "confidence": 0.78
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/result_consumer.py",
+        "line": 96,
+        "severity": "low",
+        "message": "`thread_queue_parallel` is declared as a class attribute without a type annotation, which reduces static type checking clarity.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/result_consumer.py",
+        "line": 108,
+        "severity": "low",
+        "message": "The new mode string `\"thread-queue-parallel\"` is added to the `mode` Literal, but there is no explicit validation that an unsupported mode raises an error; callers could pass an invalid string and the object would silently default to serial processing.",
+        "confidence": 0.65
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/result_consumer.py",
+        "line": 118,
+        "severity": "low",
+        "message": "`self.result_processor` is instantiated unconditionally for every mode, even when the processor is only needed for the `thread-queue-parallel` mode, incurring unnecessary object creation overhead.",
+        "confidence": 0.81
+      },
+      {
+        "file": "src/sentry/remote_subscriptions/consumers/result_consumer.py",
+        "line": 183,
+        "severity": "low",
+        "message": "`shutdown` method attempts to shut down `self.queue_pool` without first checking if the pool was ever created; while the `if self.queue_pool:` guard prevents errors, the subsequent assignment `self.queue_pool = None` could mask bugs where the pool should remain accessible after shutdown.",
+        "confidence": 0.73
+      },
+      {
+        "file": "tests/sentry/remote_subscriptions/consumers/test_queue_consumer.py",
+        "line": 145,
+        "severity": "low",
+        "message": "The test `test_concurrent_processing_across_groups` creates work items but never submits them to the pool, nor includes any assertions or synchronization to verify concurrent processing. This makes the test ineffective and likely incomplete.",
+        "confidence": 0.85
+      },
+      {
+        "file": "tests/sentry/remote_subscriptions/consumers/test_queue_consumer.py",
+        "line": 340,
+        "severity": "medium",
+        "message": "The test uses `datetime.now()` but does not import `datetime` from the `datetime` module, which will raise a `NameError` at runtime.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/remote_subscriptions/consumers/test_queue_consumer.py",
+        "line": 388,
+        "severity": "medium",
+        "message": "`mock.Mock()` is referenced without importing the `mock` module (e.g., `from unittest import mock`). This will cause a `NameError` when the test runs.",
+        "confidence": 0.96
+      },
+      {
+        "file": "tests/sentry/remote_subscriptions/consumers/test_queue_consumer.py",
+        "line": 413,
+        "severity": "medium",
+        "message": "The test creates `commit = mock.Mock()` but the `mock` module is not imported, leading to a `NameError`.",
+        "confidence": 0.96
+      },
+      {
+        "file": "tests/sentry/remote_subscriptions/consumers/test_queue_consumer.py",
+        "line": 417,
+        "severity": "medium",
+        "message": "`SimpleQueueProcessingStrategy` is referenced in an `isinstance` check without being imported, which will raise a `NameError` during test execution.",
+        "confidence": 0.94
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 2,
+        "severity": "low",
+        "message": "`import time` is added but not used anywhere in the test file, leading to an unnecessary import.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 4,
+        "severity": "low",
+        "message": "`from collections.abc import Mapping` is imported but never referenced, adding dead code.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 13,
+        "severity": "low",
+        "message": "`KafkaConsumer`, `build_kafka_consumer_configuration` are imported but not used in the test, increasing import surface and potential runtime dependencies.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 14,
+        "severity": "low",
+        "message": "`ONCE_PER_SECOND` is imported but never referenced, which may indicate leftover code or a missing usage.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 15,
+        "severity": "low",
+        "message": "`StreamProcessor` is imported but not used, adding unnecessary dependency on the Arroyo processing module.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 18,
+        "severity": "low",
+        "message": "`Consumer`, `Producer`, `TopicPartition` from `confluent_kafka` are imported but not used, which may cause the test suite to require the `confluent_kafka` library unnecessarily.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 19,
+        "severity": "low",
+        "message": "`AdminClient` from `confluent_kafka.admin` is imported but never used, adding an unused heavy dependency.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 20,
+        "severity": "low",
+        "message": "`settings` from `django.conf` is imported but not referenced in the test file.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 37,
+        "severity": "low",
+        "message": "`UptimeTestCase` is imported but not used; consider removing or using it to avoid dead code.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 40,
+        "severity": "low",
+        "message": "`requires_kafka` decorator is imported but not applied to any test, potentially indicating a missing test requirement annotation.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 64,
+        "severity": "low",
+        "message": "`create_topics` and `wait_for_topics` are imported but not used, which may lead to unnecessary Kafka admin calls if later added incorrectly.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 65,
+        "severity": "low",
+        "message": "`get_kafka_admin_cluster_options` is imported but never referenced, adding unused configuration code.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 1728,
+        "severity": "medium",
+        "message": "NameError risk: `call` is used in `mock_processor_call.assert_has_calls([call(...), ...])` but `call` is not imported in this test file. Add `from unittest.mock import call` or reference `mock.call`.",
+        "confidence": 0.97
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 1926,
+        "severity": "low",
+        "message": "The test `test_thread_queue_parallel_offset_gaps` does not contain any assertions or checks, so it does not verify the intended behavior about offset gaps. Add appropriate assertions to validate that commits stop at the gap.",
+        "confidence": 0.97
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 2066,
+        "severity": "low",
+        "message": "The test tracks commit_count and commits_made but never asserts on them, so it does not actually verify that offsets were committed to Kafka.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 2039,
+        "severity": "low",
+        "message": "Kafka topics are created for the test but never cleaned up (deleted) after the test finishes, which can leave stray topics and affect other tests or environments.",
+        "confidence": 0.85
+      },
+      {
+        "file": "tests/sentry/uptime/consumers/test_results_consumer.py",
+        "line": 2070,
+        "severity": "medium",
+        "message": "The wrapper function `create_with_partitions_tracking` replaces `factory.create_with_partitions` with a signature `(commit, partitions)`, but the original method is expected to be called with `(consumer, partitions)`. This mismatch will raise a TypeError when the factory is used elsewhere in the test.",
+        "confidence": 0.78
+      }
+    ],
+    "dropped": [],
+    "calls": 13,
+    "chunk_sizes": [
+      1126,
+      5762,
+      5782,
+      1752,
+      5164,
+      5803,
+      5788,
+      4881,
+      2101,
+      5864,
+      5871,
+      5864,
+      2308
+    ],
+    "diff_chars": 55464,
+    "diff_sha256": "9d27364454bc6d7e25e7b07b94b6220d967d6e3cb1d883bc65ec92827dfdb4fe"
+  },
+  {
+    "repo": "getsentry/sentry",
+    "pr": 80168,
+    "pr_title": "feat(workflow_engine): Add in hook for producing occurrences from the stateful detector",
+    "kept": [
+      {
+        "file": "src/sentry/incidents/grouptype.py",
+        "line": 11,
+        "severity": "high",
+        "message": "MetricAlertDetectorHandler now inherits from StatefulDetectorHandler but does not implement any required abstract methods (e.g., evaluate). Instantiating this class will raise a TypeError.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/incidents/grouptype.py",
+        "line": 11,
+        "severity": "medium",
+        "message": "The class references the generic type QuerySubscriptionUpdate, but there is no import for QuerySubscriptionUpdate in this file. This will cause a NameError at import time unless it is imported elsewhere in the module.",
+        "confidence": 0.78
+      },
+      {
+        "file": "src/sentry/workflow_engine/processors/detector.py",
+        "line": 166,
+        "severity": "high",
+        "message": "Added an abstract method `build_occurrence_and_event_data` but existing concrete Detector subclasses are not shown to implement it. Instantiating those subclasses will raise a TypeError, breaking runtime behavior.",
+        "confidence": 0.92
+      },
+      {
+        "file": "src/sentry/workflow_engine/processors/detector.py",
+        "line": 289,
+        "severity": "medium",
+        "message": "`event_data` is set to `None` for the OK path and later populated only in the non\u2011OK branch, but it is never passed to `DetectorEvaluationResult`. This likely drops valuable event information for resolved issues.",
+        "confidence": 0.85
+      },
+      {
+        "file": "src/sentry/workflow_engine/processors/detector.py",
+        "line": 237,
+        "severity": "low",
+        "message": "The `process_detectors` function now expects each detector to return a `dict[DetectorGroupKey, DetectorEvaluationResult]` instead of a list. Callers elsewhere in the codebase may still assume a list, which could cause subtle bugs. Add or update tests to cover this changed contract.",
+        "confidence": 0.78
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 27,
+        "severity": "high",
+        "message": "StatefulDetectorHandler is referenced but not imported, causing a NameError when the test module is loaded.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 48,
+        "severity": "medium",
+        "message": "status_change_comparator is used in the mock patch but not imported, leading to a NameError at runtime.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 191,
+        "severity": "medium",
+        "message": "The test builds a mock occurrence for group \"group_2\" using a value of 6, but the DataPacket defined on line 177 sets \"group_2\" to 10. This mismatch will cause the test to compare against incorrect mock data and likely fail.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 208,
+        "severity": "low",
+        "message": "The test uses the name `call` in `mock_produce_occurrence_to_kafka.assert_has_calls([...])` without an explicit import. If `call` is not imported elsewhere in the file, this will raise a NameError at runtime.",
+        "confidence": 0.7
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 250,
+        "severity": "high",
+        "message": "Missing import for `datetime` and `timezone`. The code uses `datetime.now(timezone.utc)` but does not import `datetime` or `timezone`, which will raise a NameError at runtime.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 249,
+        "severity": "medium",
+        "message": "`Any` is used in the type hint `dict[str, Any]` without importing it from `typing`. This will cause a NameError during type checking or at runtime in some environments.",
+        "confidence": 0.9
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 422,
+        "severity": "high",
+        "message": "Changed the test class to inherit from `BaseDetectorHandlerTest` instead of `StatefulDetectorHandlerTestMixin`. If `BaseDetectorHandlerTest` does not provide the mixin's helper methods (e.g., `assert_updates`), the test will raise an AttributeError at runtime.",
+        "confidence": 0.92
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 426,
+        "severity": "high",
+        "message": "The test now asserts that `handler.evaluate` returns an empty dict `{}` instead of the original empty list `[]`. If the `evaluate` implementation still returns a list, this assertion will always fail, indicating a mismatch between test expectations and production code.",
+        "confidence": 0.88
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 427,
+        "severity": "medium",
+        "message": "`build_mock_occurrence_and_event` is used without an explicit import in this file. If it is not imported elsewhere in the test module, this will cause a NameError.",
+        "confidence": 0.75
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 443,
+        "severity": "high",
+        "message": "Similar to line 426, the test now expects a dict `{}` for a non\u2011triggering evaluation. If `handler.evaluate` still returns a list, the test will fail.",
+        "confidence": 0.88
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 458,
+        "severity": "high",
+        "message": "Again, the test asserts an empty dict `{}` for a later evaluation. This creates a consistent mismatch if the underlying method returns a list.",
+        "confidence": 0.88
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 479,
+        "severity": "high",
+        "message": "The test now expects `{}` for a case with an invalid condition group. If the `evaluate` method still returns a list, this assertion will be incorrect.",
+        "confidence": 0.88
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 531,
+        "severity": "high",
+        "message": "The @freeze_time() decorator is used without importing it (e.g., from freezegun import freeze_time), which will raise a NameError when the test module is imported.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 532,
+        "severity": "medium",
+        "message": "The test class now inherits from BaseDetectorHandlerTest, but there is no import for BaseDetectorHandlerTest in this file. If the symbol is not available in the module's namespace, this will cause an ImportError at runtime.",
+        "confidence": 0.85
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 536,
+        "severity": "high",
+        "message": "The helper function build_mock_occurrence_and_event is called but not imported in this test module, leading to a NameError when the test runs.",
+        "confidence": 0.95
+      },
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 490,
+        "severity": "low",
+        "message": "The test uses PriorityLevel.HIGH while the expected DetectorEvaluationResult uses DetectorPriorityLevel.HIGH. If these enums differ, the test may compare mismatched values, potentially causing false failures.",
+        "confidence": 0.7
+      }
+    ],
+    "dropped": [
+      {
+        "file": "tests/sentry/workflow_engine/processors/test_detector.py",
+        "line": 128,
+        "severity": "high",
+        "message": "Inconsistent indentation for `def build_data_packet`; it is indented with 6 spaces instead of the expected 4 spaces inside the class, causing a syntax error.",
+        "confidence": 0.97
+      }
+    ],
+    "calls": 8,
+    "chunk_sizes": [
+      2401,
+      5068,
+      3912,
+      2602,
+      4848,
+      4254,
+      3850,
+      3544
+    ],
+    "diff_chars": 29004,
+    "diff_sha256": "09764ac9a03a1ea65bca6451e56c14ec337a75ac0d232e0a5a0bbc319b13d917"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "label": "exp1_generic_run1",
+  "condition": "generic",
+  "date_utc": "2026-11-16T09:53:46+00:00",
+  "model": "openai/gpt-oss-120b",
+  "temperature": 0,
+  "prompt_version": "generic-v1",
+  "prompt_template_sha256": "0fc1ca589efc8ffca6e1cf0c6f348d49a4b7eade1e83a6ae1ee0fc8f8024be62",
+  "playbook_file": null,
+  "playbook_sha256": null,
+  "max_chars": 6000,
+  "pause_s": 30,
+  "bot_commit": "d94eaf1",
+  "code_uncommitted_changes": false,
+  "usage": {
+    "calls": 46,
+    "input_tokens": 68763,
+    "output_tokens": 33562,
+    "failed_attempts": 1
+  },
+  "cost_usd": 0.030452,
+  "pricing": "$0.15 / $0.60 per million input / output tokens, no caching discount"
+}
